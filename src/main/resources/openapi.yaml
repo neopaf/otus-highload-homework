@@ -3,7 +3,7 @@ info:
   title: OTUS Highload Architect
   version: 1.2.0
 servers:
-- url: /
+- url: http://localhost:8080
 paths:
   /login:
     post:
