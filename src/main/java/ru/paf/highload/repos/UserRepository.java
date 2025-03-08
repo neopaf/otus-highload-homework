@@ -14,6 +14,7 @@ public class UserRepository {
     @Data
     @Builder
     public static class Entity {
+
         private String id;
         private String firstName;
         private String secondName;
@@ -29,6 +30,7 @@ public class UserRepository {
 
     private final PreparedStatement statementAdd;
     private final PreparedStatement statementGet;
+    private final PreparedStatement statementHash;
 
     public UserRepository(ConfigProperties config) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -55,6 +57,9 @@ public class UserRepository {
                 "password_salt, " +
                 "password_hash " +
                 "from `user` where id = ?");
+
+        statementHash = connection.prepareStatement(
+            "select MD5(?) as password_hash");
 
     }
 
@@ -86,6 +91,16 @@ public class UserRepository {
                 .password_salt(resultSet.getString("password_salt"))
                 .password_hash(resultSet.getString("password_hash"))
                 .build();
+
+        return null;
+    }
+
+    public String hash(String salt, String password) throws SQLException {
+        statementHash.setString(1, salt + password);
+
+        ResultSet resultSet = statementHash.executeQuery();
+        if (resultSet.next())
+            return resultSet.getString("password_hash");
 
         return null;
     }

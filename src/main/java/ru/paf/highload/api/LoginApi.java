@@ -73,7 +73,7 @@ public interface LoginApi {
 
     default ResponseEntity<LoginPost200Response> loginPost(
         @Parameter(name = "LoginPostRequest", description = "") @Valid @RequestBody(required = false) LoginPostRequest loginPostRequest
-    ) {
+    ) throws Exception {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

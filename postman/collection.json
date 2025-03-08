@@ -12,6 +12,19 @@
 			"item": [
 				{
 					"name": "Упрощенный процесс аутентификации путем передачи идентификатор пользователя и получения токена для дальнейшего прохождения авторизации",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"responseJson = pm.response.json();",
+									"pm.collectionVariables.set(\"token\", responseJson.token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -62,7 +75,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"id\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+									"raw": "{\n  \"id\": \"{{user_id}}\",\n  \"password\": \"VeryLongPasswordThatIsHardToGuess\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -87,24 +100,44 @@
 								{
 									"key": "Content-Type",
 									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 08:21:33 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"token\": \"<string>\"\n}"
+							"body": "{\n    \"token\": \"5b9faa4f-1384-4e50-a358-800f7b51fae7\"\n}"
 						},
 						{
-							"name": "Невалидные данные",
+							"name": "Пользователь не найден",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
 										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"id\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+									"raw": "{\n  \"id\": \"{{user_id}}\",\n  \"password\": \"bad\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -124,84 +157,6 @@
 							},
 							"status": "Bad Request",
 							"code": 400,
-							"_postman_previewlanguage": "text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						},
-						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": \"<string>\",\n  \"password\": \"<string>\"\n}",
-									"options": {
-										"raw": {
-											"headerFamily": "json",
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						},
-						{
-							"name": "Ошибка сервера",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": \"<string>\",\n  \"password\": \"<string>\"\n}",
-									"options": {
-										"raw": {
-											"headerFamily": "json",
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
@@ -209,70 +164,20 @@
 									"value": "application/json"
 								},
 								{
-									"key": "Retry-After",
-									"value": "<integer>",
-									"description": {
-										"content": "Время, через которое еще раз нужно сделать запрос",
-										"type": "text/plain"
-									}
+									"key": "Content-Length",
+									"value": "35"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 08:21:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
 								}
 							],
 							"cookie": [],
-							"body": "{\n  \"message\": \"<string>\",\n  \"request_id\": \"<string>\",\n  \"code\": \"<integer>\"\n}"
-						},
-						{
-							"name": "Ошибка сервера",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"id\": \"<string>\",\n  \"password\": \"<string>\"\n}",
-									"options": {
-										"raw": {
-											"headerFamily": "json",
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "Service Unavailable",
-							"code": 503,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Retry-After",
-									"value": "<integer>",
-									"description": {
-										"content": "Время, через которое еще раз нужно сделать запрос",
-										"type": "text/plain"
-									}
-								}
-							],
-							"cookie": [],
-							"body": "{\n  \"message\": \"<string>\",\n  \"request_id\": \"<string>\",\n  \"code\": \"<integer>\"\n}"
+							"body": "No such user or password is invalid"
 						}
 					]
 				}
@@ -3305,6 +3210,10 @@
 		},
 		{
 			"key": "user_id",
+			"value": ""
+		},
+		{
+			"key": "token",
 			"value": ""
 		}
 	]

@@ -12,8 +12,15 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public String handleException(UserApiController.NoEntityException ignoredException) {
+    public String handleException(UserNotFound ignoredException) {
         return "No such user";
+    }
+
+    @ResponseBody
+    @ExceptionHandler
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public String handleException(InvalidPassword ignoredException) {
+        return "No such user or password is invalid";
     }
 
     @ResponseBody
