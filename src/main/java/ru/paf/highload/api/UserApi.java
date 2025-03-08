@@ -135,7 +135,7 @@ public interface UserApi {
 
     default ResponseEntity<UserRegisterPost200Response> userRegisterPost(
         @Parameter(name = "UserRegisterPostRequest", description = "") @Valid @RequestBody(required = false) UserRegisterPostRequest userRegisterPostRequest
-    ) {
+    ) throws Exception {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

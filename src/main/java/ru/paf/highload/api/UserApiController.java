@@ -42,22 +42,18 @@ public class UserApiController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<UserRegisterPost200Response> userRegisterPost(UserRegisterPostRequest userRegisterPostRequest) {
-        try {
-            String userId = UUID.randomUUID().toString();
-            repository.add(
-                userId,
-                userRegisterPostRequest.getFirstName(),
-                userRegisterPostRequest.getSecondName(),
-                userRegisterPostRequest.getBirthdate(),
-                userRegisterPostRequest.getBiography(),
-                userRegisterPostRequest.getCity(),
-                userRegisterPostRequest.getPassword()
-            );
-            return new ResponseEntity<>(new UserRegisterPost200Response().userId(userId), HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<UserRegisterPost200Response> userRegisterPost(UserRegisterPostRequest userRegisterPostRequest) throws Exception {
+        String userId = UUID.randomUUID().toString();
+        repository.add(
+            userId,
+            userRegisterPostRequest.getFirstName(),
+            userRegisterPostRequest.getSecondName(),
+            userRegisterPostRequest.getBirthdate(),
+            userRegisterPostRequest.getBiography(),
+            userRegisterPostRequest.getCity(),
+            userRegisterPostRequest.getPassword()
+        );
+        return new ResponseEntity<>(new UserRegisterPost200Response().userId(userId), HttpStatus.OK);
     }
 
     @Override
