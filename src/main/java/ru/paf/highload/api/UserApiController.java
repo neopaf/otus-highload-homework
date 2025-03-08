@@ -12,6 +12,7 @@ import ru.paf.highload.model.UserRegisterPostRequest;
 import ru.paf.highload.repos.UserRepository;
 
 import javax.annotation.Generated;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,22 +37,34 @@ public class UserApiController implements UserApi {
         return Optional.ofNullable(request);
     }
 
-    @Override
-    public ResponseEntity<User> userGetIdGet(String id) {
-        return UserApi.super.userGetIdGet(id);
+    public class NoEntityException extends RuntimeException {
     }
 
     @Override
-    public ResponseEntity<UserRegisterPost200Response> userRegisterPost(UserRegisterPostRequest userRegisterPostRequest) throws Exception {
+    public ResponseEntity<User> userGetIdGet(String id) throws SQLException {
+        UserRepository.Entity entity = repository.get(id);
+        if (entity == null)
+            throw new NoEntityException();
+        return new ResponseEntity<User>(new User()
+            .firstName(entity.getFirstName())
+            .secondName(entity.getSecondName())
+            .birthdate(entity.getBirthdate())
+            .biography(entity.getBiography())
+            .city(entity.getCity()), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<UserRegisterPost200Response> userRegisterPost(UserRegisterPostRequest userRegisterPostRequest) throws SQLException {
         String userId = UUID.randomUUID().toString();
-        repository.add(
-            userId,
-            userRegisterPostRequest.getFirstName(),
-            userRegisterPostRequest.getSecondName(),
-            userRegisterPostRequest.getBirthdate(),
-            userRegisterPostRequest.getBiography(),
-            userRegisterPostRequest.getCity(),
-            userRegisterPostRequest.getPassword()
+        repository.add(UserRepository.Entity.builder()
+            .id(userId)
+            .firstName(userRegisterPostRequest.getFirstName())
+            .secondName(userRegisterPostRequest.getSecondName())
+            .birthdate(userRegisterPostRequest.getBirthdate())
+            .biography(userRegisterPostRequest.getBiography())
+            .city(userRegisterPostRequest.getCity())
+            .password(userRegisterPostRequest.getPassword())
+            .build()
         );
         return new ResponseEntity<>(new UserRegisterPost200Response().userId(userId), HttpStatus.OK);
     }

@@ -75,7 +75,7 @@ public interface UserApi {
 
     default ResponseEntity<User> userGetIdGet(
         @Parameter(name = "id", description = "Идентификатор пользователя", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
-    ) {
+    ) throws Exception {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

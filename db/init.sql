@@ -13,4 +13,6 @@ create table user
     password_hash char(32) comment 'md5(concat(Секретная строка,salt))'
 );
 
-
+CREATE USER 'paf'@'%' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON paf_homework.* TO 'paf'@'%';
+FLUSH PRIVILEGES;
