@@ -31,6 +31,7 @@ dependencies {
     implementation 'javax.validation:validation-api:2.0.1.Final'
     testImplementation "org.springframework.boot:spring-boot-starter-test:3.4.3"
     compileOnly 'javax.servlet:javax.servlet-api:3.0.1'
+    implementation 'mysql:mysql-connector-java:8.0.33'
 }
 
 group = 'ru.paf'
