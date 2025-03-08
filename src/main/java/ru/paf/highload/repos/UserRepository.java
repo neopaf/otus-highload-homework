@@ -1,9 +1,16 @@
 package ru.paf.highload.repos;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 
+@Component
 public class UserRepository {
-    public UserRepository() {
+
+    private ConfigProperties config;
+
+    public UserRepository(ConfigProperties config) {
+        this.config = config;
     }
 
     public void add(

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
     nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 @ComponentScan(
-    basePackages = {"ru.paf.highload.invoker", "ru.paf.highload.api" , "org.openapitools.configuration"},
+    basePackages = {"ru.paf.highload.repos", "ru.paf.highload.invoker", "ru.paf.highload.api" , "org.openapitools.configuration"},
     nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 public class OpenApiGeneratorApplication {
