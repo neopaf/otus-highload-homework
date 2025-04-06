@@ -6,7 +6,7 @@ FLUSH PRIVILEGES;
 
 create table user
 (
-    id char(36) primary key,
+    id char(36) primary key default (uuid()),
     first_name varchar(100) comment 'Имя',
     second_name varchar(100) comment 'Фамилия',
     birthdate date comment 'Дата рождения',
