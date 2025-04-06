@@ -1,47 +1,28 @@
 package ru.paf.highload.api;
 
+import jakarta.annotation.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.paf.highload.model.LoginPost200Response;
-import ru.paf.highload.model.LoginPostRequest;
-import ru.paf.highload.repos.TokenRepository;
-import ru.paf.highload.repos.UserRepository;
+import org.springframework.web.context.request.NativeWebRequest;
 
-import javax.annotation.Generated;
-import java.util.UUID;
+import java.util.Optional;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-03-06T15:13:16.556718+03:00[Europe/Moscow]", comments = "Generator version: 7.10.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-06T09:54:10.188404+03:00[Europe/Moscow]", comments = "Generator version: 7.10.0")
 @Controller
 @RequestMapping("${openapi.oTUSHighloadArchitect.base-path:}")
 public class LoginApiController implements LoginApi {
 
-    private final UserRepository userRepository;
-    private final TokenRepository tokenRepository;
+    private final NativeWebRequest request;
 
     @Autowired
-    public LoginApiController(UserRepository userRepository, TokenRepository tokenRepository) {
-        this.userRepository = userRepository;
-        this.tokenRepository = tokenRepository;
+    public LoginApiController(NativeWebRequest request) {
+        this.request = request;
     }
 
     @Override
-    public ResponseEntity<LoginPost200Response> loginPost(LoginPostRequest request) throws Exception {
-        final String user_id = request.getId();
-        UserRepository.Entity entity = userRepository.get(user_id);
-        if (entity == null)
-            throw new UserNotFound();
-
-        String hash = userRepository.hash(entity.getPassword_salt(), request.getPassword());
-        if (!hash.equals(entity.getPassword_hash()))
-            throw new InvalidPassword();
-
-        String token = UUID.randomUUID().toString();
-        tokenRepository.add(user_id, token);
-
-        return new ResponseEntity<>(new LoginPost200Response().token(token), HttpStatus.OK);
+    public Optional<NativeWebRequest> getRequest() {
+        return Optional.ofNullable(request);
     }
 
 }

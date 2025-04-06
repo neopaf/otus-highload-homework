@@ -63,7 +63,7 @@ public class UserRepository {
 
     }
 
-    public void add(Entity entity) throws SQLException {
+    public void add(Entity entity) throws Throwable {
         String salt = String.format("%06x", rnd.nextInt(0x1000000));
         statementAdd.setString(1, entity.id);
         statementAdd.setString(2, entity.firstName);
@@ -76,7 +76,7 @@ public class UserRepository {
         statementAdd.execute();
     }
 
-    public Entity get(String id) throws SQLException {
+    public Entity get(String id) throws Throwable {
         statementGet.setString(1, id);
 
         ResultSet resultSet = statementGet.executeQuery();
@@ -95,7 +95,7 @@ public class UserRepository {
         return null;
     }
 
-    public String hash(String salt, String password) throws SQLException {
+    public String hash(String salt, String password) throws Throwable {
         statementHash.setString(1, salt + password);
 
         ResultSet resultSet = statementHash.executeQuery();

@@ -2,16 +2,16 @@ package ru.paf.highload.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
+import jakarta.validation.constraints.NotNull;
 
-import javax.annotation.Generated;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
  * DialogMessage
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-03-06T15:13:16.556718+03:00[Europe/Moscow]", comments = "Generator version: 7.10.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-06T09:54:10.188404+03:00[Europe/Moscow]", comments = "Generator version: 7.10.0")
 public class DialogMessage {
 
   private String from;

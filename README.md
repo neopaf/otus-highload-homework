@@ -1,3 +1,11 @@
+## How was generated
+
+```
+#do not start now, it will break things
+openapi-generator generate -i input/openapi.json  -g spring --model-package ru.paf.highload.model --api-package ru.paf.highload.api --invoker-package ru.paf.highload.invoker --additional-properties=useSpringBoot3=true
+rm pom.xml
+```
+
 ## Prepare
 
 Data [README.md](db/README.md).
@@ -28,3 +36,7 @@ docker exec -it paf-mysql mysql -e "$(cat db/load.sql)"
 ./gradlew bootJar
 ```
 
+## View
+
+You can view the api documentation here
+http://localhost:8080/swagger-ui.html

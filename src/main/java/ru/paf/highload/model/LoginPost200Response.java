@@ -3,8 +3,8 @@ package ru.paf.highload.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
 
-import javax.annotation.Generated;
 import java.util.Objects;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 
 @JsonTypeName("_login_post_200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-03-06T15:13:16.556718+03:00[Europe/Moscow]", comments = "Generator version: 7.10.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-06T09:54:10.188404+03:00[Europe/Moscow]", comments = "Generator version: 7.10.0")
 public class LoginPost200Response {
 
   private String token;

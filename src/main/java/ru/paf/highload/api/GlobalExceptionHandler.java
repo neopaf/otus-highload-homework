@@ -12,6 +12,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    // TODO: content-type is wrong
     public String handleException(UserNotFound ignoredException) {
         return "No such user";
     }
@@ -19,6 +20,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    // TODO: content-type is wrong
     public String handleException(InvalidPassword ignoredException) {
         return "No such user or password is invalid";
     }

@@ -3,9 +3,9 @@ package ru.paf.highload.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
+import jakarta.validation.constraints.NotNull;
 
-import javax.annotation.Generated;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 
 @JsonTypeName("_dialog__user_id__send_post_request")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-03-06T15:13:16.556718+03:00[Europe/Moscow]", comments = "Generator version: 7.10.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-06T09:54:10.188404+03:00[Europe/Moscow]", comments = "Generator version: 7.10.0")
 public class DialogUserIdSendPostRequest {
 
   private String text;

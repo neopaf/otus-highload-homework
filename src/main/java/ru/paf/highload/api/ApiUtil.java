@@ -1,6 +1,6 @@
 package ru.paf.highload.api;
 
-import org.apache.catalina.connector.ResponseFacade;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.io.IOException;
 public class ApiUtil {
     public static void setExampleResponse(NativeWebRequest req, String contentType, String example) {
         try {
-            ResponseFacade res = req.getNativeResponse(ResponseFacade.class);
+            HttpServletResponse res = req.getNativeResponse(HttpServletResponse.class);
             res.setCharacterEncoding("UTF-8");
             res.addHeader("Content-Type", contentType);
             res.getWriter().print(example);

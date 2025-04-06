@@ -37,7 +37,7 @@ public class TokenRepository {
                 "from token where user_id = ?");
     }
 
-    public void add(String user_id, String token) throws SQLException {
+    public void add(String user_id, String token) throws Throwable {
         statementAdd.setString(1, user_id);
         statementAdd.setString(2, token);
         statementAdd.execute();

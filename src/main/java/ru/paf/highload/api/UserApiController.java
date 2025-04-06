@@ -1,5 +1,6 @@
 package ru.paf.highload.api;
 
+import jakarta.annotation.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +11,10 @@ import ru.paf.highload.model.UserRegisterPost200Response;
 import ru.paf.highload.model.UserRegisterPostRequest;
 import ru.paf.highload.repos.UserRepository;
 
-import javax.annotation.Generated;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-03-06T15:13:16.556718+03:00[Europe/Moscow]", comments = "Generator version: 7.10.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-06T09:54:10.188404+03:00[Europe/Moscow]", comments = "Generator version: 7.10.0")
 @Controller
 @RequestMapping("${openapi.oTUSHighloadArchitect.base-path:}")
 public class UserApiController implements UserApi {
@@ -28,7 +27,7 @@ public class UserApiController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<User> userGetIdGet(String id) throws SQLException {
+    public ResponseEntity<User> userGetIdGet(String id) throws Throwable {
         UserRepository.Entity entity = repository.get(id);
         if (entity == null)
             throw new UserNotFound();
@@ -41,7 +40,7 @@ public class UserApiController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<UserRegisterPost200Response> userRegisterPost(UserRegisterPostRequest request) throws SQLException {
+    public ResponseEntity<UserRegisterPost200Response> userRegisterPost(UserRegisterPostRequest request) throws Throwable {
         String userId = UUID.randomUUID().toString();
         repository.add(UserRepository.Entity.builder()
             .id(userId)
