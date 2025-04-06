@@ -1,0 +1,53 @@
+{
+  "properties": [
+    {
+      "name": "params.datasource.data-source-properties.cachePrepStmts",
+      "type": "java.lang.String",
+      "description": "Description for params.datasource.data-source-properties.cachePrepStmts."
+    },
+    {
+      "name": "params.datasource.data-source-properties.prepStmtCacheSize",
+      "type": "java.lang.String",
+      "description": "Description for params.datasource.data-source-properties.prepStmtCacheSize."
+    },
+    {
+      "name": "params.datasource.data-source-properties.prepStmtCacheSqlLimit",
+      "type": "java.lang.String",
+      "description": "Description for params.datasource.data-source-properties.prepStmtCacheSqlLimit."
+    },
+    {
+      "name": "params.datasource.data-source-properties.useServerPrepStmts",
+      "type": "java.lang.String",
+      "description": "Description for params.datasource.data-source-properties.useServerPrepStmts."
+    },
+    {
+      "name": "params.datasource.data-source-properties.useLocalSessionState",
+      "type": "java.lang.String",
+      "description": "Description for params.datasource.data-source-properties.useLocalSessionState."
+    },
+    {
+      "name": "params.datasource.data-source-properties.rewriteBatchedStatements",
+      "type": "java.lang.String",
+      "description": "Description for params.datasource.data-source-properties.rewriteBatchedStatements."
+    },
+    {
+      "name": "params.datasource.data-source-properties.cacheResultSetMetadata",
+      "type": "java.lang.String",
+      "description": "Description for params.datasource.data-source-properties.cacheResultSetMetadata."
+    },
+    {
+      "name": "params.datasource.data-source-properties.elideSetAutoCommits",
+      "type": "java.lang.String",
+      "description": "Description for params.datasource.data-source-properties.elideSetAutoCommits."
+    },
+    {
+      "name": "params.datasource.data-source-properties.cacheServerConfiguration",
+      "type": "java.lang.String",
+      "description": "Description for params.datasource.data-source-properties.cacheServerConfiguration."
+    },
+    {
+      "name": "params.datasource.data-source-properties.maintainTimeStats",
+      "type": "java.lang.String",
+      "description": "Description for params.datasource.data-source-properties.maintainTimeStats."
+    }
+  ] }

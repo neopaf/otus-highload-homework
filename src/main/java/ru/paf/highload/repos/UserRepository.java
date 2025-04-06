@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Random;
 @Component
 public class UserRepository {
 
-    private final Connection connection;
+    private final DataSource dataSource;
 
     @Data
     @Builder
@@ -32,12 +33,11 @@ public class UserRepository {
 
     Random rnd = new Random();
 
-    public UserRepository(ConfigProperties config) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        connection = DriverManager.getConnection(config.getConnectionString());
+    public UserRepository(DataSource dataSource) throws ClassNotFoundException, SQLException {
+        this.dataSource = dataSource;
     }
 
-    private PreparedStatement getStatementSearch() throws SQLException {
+    private PreparedStatement getStatementSearch(Connection connection) throws SQLException {
         return connection.prepareStatement(
             "select " +
                 "id, " +
@@ -52,12 +52,12 @@ public class UserRepository {
                 "where first_name like ? and second_name like ?");
     }
 
-    private PreparedStatement getStatementHash() throws SQLException {
+    private PreparedStatement getStatementHash(Connection connection) throws SQLException {
         return connection.prepareStatement(
             "select MD5(?) as password_hash");
     }
 
-    private PreparedStatement getStatementGet() throws SQLException {
+    private PreparedStatement getStatementGet(Connection connection) throws SQLException {
         return connection.prepareStatement(
             "select " +
                 "first_name, " +
@@ -70,7 +70,7 @@ public class UserRepository {
                 "from `user` where id = ?");
     }
 
-    private PreparedStatement getStatementAdd() throws SQLException {
+    private PreparedStatement getStatementAdd(Connection connection) throws SQLException {
         return connection.prepareStatement(
             "insert into `user` (" +
                 "id," +
@@ -85,26 +85,32 @@ public class UserRepository {
     }
 
     public void add(Entity entity) throws Throwable {
-        PreparedStatement statementAdd = getStatementAdd();
-        String salt = String.format("%06x", rnd.nextInt(0x1000000));
-        statementAdd.setString(1, entity.id);
-        statementAdd.setString(2, entity.firstName);
-        statementAdd.setString(3, entity.secondName);
-        statementAdd.setDate(4, Date.valueOf(entity.birthdate));
-        statementAdd.setString(5, entity.biography);
-        statementAdd.setString(6, entity.city);
-        statementAdd.setString(7, salt);
-        statementAdd.setString(8, salt + entity.password);
-        statementAdd.execute();
+        try(Connection connection = dataSource.getConnection()) {
+            try(PreparedStatement statementAdd = getStatementAdd(connection)) {
+                String salt = String.format("%06x", rnd.nextInt(0x1000000));
+                statementAdd.setString(1, entity.id);
+                statementAdd.setString(2, entity.firstName);
+                statementAdd.setString(3, entity.secondName);
+                statementAdd.setDate(4, Date.valueOf(entity.birthdate));
+                statementAdd.setString(5, entity.biography);
+                statementAdd.setString(6, entity.city);
+                statementAdd.setString(7, salt);
+                statementAdd.setString(8, salt + entity.password);
+                statementAdd.execute();
+            }
+        }
     }
 
     public Entity get(String id) throws Throwable {
-        PreparedStatement statementGet = getStatementGet();
-        statementGet.setString(1, id);
-
-        ResultSet resultSet = statementGet.executeQuery();
-        if (resultSet.next())
-            return buildEntity(id, resultSet);
+        try(Connection connection = dataSource.getConnection()) {
+            try(PreparedStatement statementGet = getStatementGet(connection)) {
+                statementGet.setString(1, id);
+                try(ResultSet resultSet = statementGet.executeQuery()) {
+                    if (resultSet.next())
+                        return buildEntity(id, resultSet);
+                }
+            }
+        }
 
         return null;
     }
@@ -123,27 +129,34 @@ public class UserRepository {
     }
 
     public String hash(String salt, String password) throws Throwable {
-        PreparedStatement statementHash = getStatementHash();
-        statementHash.setString(1, salt + password);
+        try(Connection connection = dataSource.getConnection()) {
+            try(PreparedStatement statementHash = getStatementHash(connection)) {
+                statementHash.setString(1, salt + password);
 
-        ResultSet resultSet = statementHash.executeQuery();
-        if (resultSet.next())
-            return resultSet.getString("password_hash");
-
+                try(ResultSet resultSet = statementHash.executeQuery()) {
+                    if (resultSet.next())
+                        return resultSet.getString("password_hash");
+                }
+            }
+        }
         return null;
     }
 
     public List<Entity> search(String firstName, String lastName) throws Throwable {
-        PreparedStatement statementSearch = getStatementSearch();
-        statementSearch.setString(1, firstName+'%');
-        statementSearch.setString(2, lastName+'%');
-        ResultSet resultSet = statementSearch.executeQuery();
-
-        List<Entity> result = new ArrayList<>();
-        while (resultSet.next())
-            result.add(buildEntity(resultSet.getString("id"), resultSet));
-
-        return result.isEmpty()? null: result;
+        try(Connection connection = dataSource.getConnection()) {
+            try(PreparedStatement statementSearch = getStatementSearch(connection)) {
+                statementSearch.setString(1, firstName + '%');
+                statementSearch.setString(2, lastName + '%');
+                try(ResultSet resultSet = statementSearch.executeQuery()) {
+                    List<Entity> result = new ArrayList<>();
+                    while (resultSet.next())
+                        result.add(buildEntity(resultSet.getString("id"), resultSet));
+                    if(!result.isEmpty())
+                        return result;
+                }
+            }
+        }
+        return null;
     }
 
 }
