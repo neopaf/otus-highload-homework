@@ -196,7 +196,7 @@ public interface UserApi {
     default ResponseEntity<List<User>> userSearchGet(
         @NotNull @Parameter(name = "first_name", description = "Условие поиска по имени", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "first_name", required = true) String firstName,
         @NotNull @Parameter(name = "last_name", description = "Условие поиска по фамилии", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "last_name", required = true) String lastName
-    ) {
+    ) throws Throwable {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

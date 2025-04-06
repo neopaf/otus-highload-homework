@@ -2,6 +2,7 @@ package ru.paf.highload.api;
 
 import jakarta.annotation.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,12 +32,17 @@ public class UserApiController implements UserApi {
         UserRepository.Entity entity = repository.get(id);
         if (entity == null)
             throw new UserNotFound();
-        return new ResponseEntity<User>(new User()
+        return new ResponseEntity<>(buildUser(entity), HttpStatus.OK);
+    }
+
+    private static User buildUser(UserRepository.Entity entity) {
+        return new User()
+            .id(entity.getId())
             .firstName(entity.getFirstName())
             .secondName(entity.getSecondName())
             .birthdate(entity.getBirthdate())
             .biography(entity.getBiography())
-            .city(entity.getCity()), HttpStatus.OK);
+            .city(entity.getCity());
     }
 
     @Override
@@ -56,8 +62,14 @@ public class UserApiController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<List<User>> userSearchGet(String firstName, String lastName) {
-        return UserApi.super.userSearchGet(firstName, lastName);
+    public ResponseEntity<List<User>> userSearchGet(String firstName, String lastName) throws Throwable {
+        List<UserRepository.Entity> list = repository.search(firstName, lastName);
+        if (list == null)
+            throw new UserNotFound();
+
+        return new ResponseEntity<>(
+            list.stream().map(entity -> buildUser(entity)).toList(),
+            new HttpHeaders(), HttpStatus.OK);
     }
 
 }
