@@ -23,7 +23,6 @@ docker exec -it paf-mysql mysql -e "$(cat db/init.sql)"
 docker exec -it paf-mysql mysql -e "$(cat db/load.sql)"
 ```
 
-
 ## Run
 
 ```bash
@@ -40,3 +39,20 @@ docker exec -it paf-mysql mysql -e "$(cat db/load.sql)"
 
 You can view the api documentation here
 http://localhost:8080/swagger-ui.html
+
+## Take measurements now
+
+jmeter
+
+* open [test.jmx](test.jmx)
+* check threads under `Threads Group`
+* check Filename under `Sample Data Writer`
+* Tools|Generate HTML report
+
+## Create index
+
+```bash
+docker exec -it paf-mysql mysql -e "$(cat db/add_index.sql)"
+```
+
+## Take measurements again
